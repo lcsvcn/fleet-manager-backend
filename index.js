@@ -6,7 +6,7 @@ const cors = require("cors");
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 let fleetData = [];
 let clientData = [];
@@ -43,9 +43,9 @@ app.get('/api/v1/fleet/:id', (req, res) => {
   const foundFleet = fleetData.find((fleet) => fleet.fleet_id === id);
 
   if (foundFleet) {
-    res.status(200).json(foundFleet);
+    return res.status(200).json(foundFleet);
   } else {
-    res.status(404).json({ error: 'Fleet not found' });
+    return res.status(404).json({ error: 'Fleet not found' });
   }
 });
 
@@ -55,9 +55,9 @@ app.get('/api/v1/fleet/:id/drones', (req, res) => {
   const foundFleet = fleetData.find((fleet) => fleet.fleet_id === id);
 
   if (foundFleet) {
-    res.status(200).json(foundFleet.drones);
+    return res.status(200).json(foundFleet.drones);
   } else {
-    res.status(404).json({ error: 'Fleet not found' });
+    return res.status(404).json({ error: 'Fleet not found' });
   }
 });
 

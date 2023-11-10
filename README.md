@@ -45,9 +45,9 @@ Follow these instructions to set up and run the backend on your local machine.
 
 - **GET /api/v1/fleets:** Get a list of all fleets.
 - **POST /api/v1/fleet:** Add a new fleet.
-- **GET /api/v1/fleets/:id:** Get details of a specific fleet.
-- **GET /api/v1/fleet/:id/drones:** Get details of a specific drone in a specific fleet.
-- **POST /api/v1/fleet/:id/drones:** Update details of a specific drone in a specific fleet.
+- **GET /api/v1/fleets/[id]:** Get details of a specific fleet.
+- **GET /api/v1/fleet/[id]/drones:** Get details of a specific drone in a specific fleet.
+- **POST /api/v1/fleet/[id]/drones:** Update details of a specific drone in a specific fleet.
 - **GET /api/v1/clients:** Get a list of all clientes.
 - **POST /api/v1/clients:** Add a new clients.
 - **POST /api/v1/login:** Check if client exists

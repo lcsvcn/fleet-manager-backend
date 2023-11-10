@@ -34,7 +34,7 @@ app.post("/api/v1/fleets", (req, res) => {
 
   newFleet.drones = [];
   fleetData.push(newFleet);
-  res.status(201).json(newFleet);
+  res.status(201);
 });
 
 app.get('/api/v1/fleet/:id', (req, res) => {
@@ -81,14 +81,14 @@ app.post("/api/v1/fleet/:id/drones", (req, res) => {
   }
 
   foundFleet.drones.push(newDrone);
-  res.status(201).json(newDrone);
+  res.status(201);
 });
 
 app.delete("/api/v1/fleet/:id/drones/:drone_id", (req, res) => {
   const { id, drone_id } = req.params;
 
   const foundFleet = fleetData.find((fleet) => fleet.fleet_id === id);
-
+  
   if (!foundFleet) {
     return res.status(404).json({ error: 'Fleet not found' });
   }
@@ -149,7 +149,7 @@ app.post('/api/v1/login', (req, res) => {
     return res.status(401).json({ error: 'Incorrect password' });
   }
 
-  res.status(200).json({ message: 'Login successful' });
+  res.status(201);
 });
 
 app.listen(port, () => {

@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 let fleetData = [];
+let clientData = [];
 
 app.get('/api/v1/fleets', (req, res) => {
   const fleetsWithNumberDrones = fleetData.map((fleet) => ({
@@ -60,12 +61,6 @@ app.get('/api/v1/fleet/:id/drones', (req, res) => {
   }
 });
 
-app.delete("/api/v1/fleets/:fleet_id", (req, res) => {
-  const fleetIdToDelete = req.params.fleet_id;
-  fleetData = fleetData.filter((fleet) => fleet.fleet_id !== fleetIdToDelete);
-  res.json({ message: "Fleet deleted" });
-});
-
 app.post("/api/v1/fleet/:id/drones", (req, res) => {
   const { id } = req.params;
   const newDrone = req.body;
@@ -102,6 +97,62 @@ app.delete("/api/v1/fleet/:id/drones/:drone_id", (req, res) => {
   res.json({ message: "Drone deleted from fleet" });
 });
 
+app.get('/api/v1/clients', (req, res) => {
+  const clientsWithCounts = clientData.map((client) => {
+    const clientFleets = fleetData.filter((fleet) => fleet.owner_email === client.client_email);
+    const numberFleets = clientFleets.length;
+    
+    const numberDrones = clientFleets.reduce((acc, fleet) => acc + fleet.drones.length, 0);
+
+    return {
+      ...client,
+      number_fleets: numberFleets,
+      number_drones: numberDrones,
+    };
+  });
+
+  res.json(clientsWithCounts);
+});
+
+
+app.post("/api/v1/clients", (req, res) => {
+  const { client_email, client_password, first_name, last_name } = req.body;
+
+  if (!client_email || !client_password || !first_name || !last_name) {
+    return res.status(400).json({ error: "Bad Request: Invalid or missing data" });
+  }
+
+  const existingClient = clientData.find(
+    (client) => client.client_email === client_email
+  );
+  
+  if (existingClient) {
+    return res.status(409).json({ error: "Conflict: Client Email already exists" });
+  }
+
+  const newClient = { client_email, client_password, first_name, last_name };
+  clientData.push(newClient);
+  res.status(201).json(newClient);
+});
+
+
+app.post('/api/v1/login', (req, res) => {
+  const { client_email, client_password } = req.body;
+
+  const foundClient = clientData.find((client) => client.client_email === client_email);
+
+  if (!foundClient) {
+    return res.status(404).json({ error: 'Client not found' });
+  }
+
+  if (foundClient.client_password !== client_password) {
+    return res.status(401).json({ error: 'Incorrect password' });
+  }
+
+  res.status(200).json({ message: 'Login successful' });
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+

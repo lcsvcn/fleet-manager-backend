@@ -1,3 +1,7 @@
+# Assessment Overview
+
+https://docs.google.com/document/d/1yHU9K4LfDcPN-GfYdeuYOiC0UxtRbB_Nj04wZVxDShk/edit?usp=sharing
+
 # Fleet Manager Backend
 
 Welcome to the Fleet Manager Backend! This Node.js application serves as the backend for the Fleet Manager system, providing API endpoints for managing and monitoring vehicle fleets.

@@ -1,0 +1,12 @@
+# Exported from Render on 2024-03-27T14:38:22Z
+services:
+- type: web
+  name: fleet-manager-backend
+  runtime: node
+  repo: https://github.com/lcsvcn/fleet-manager-backend
+  branch: main
+  plan: free
+  region: oregon
+  buildCommand: pnpm install
+  startCommand: pnpm start
+version: "1"
